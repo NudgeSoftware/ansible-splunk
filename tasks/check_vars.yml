@@ -1,0 +1,12 @@
+---
+- name: check for checksum
+  fail:
+    msg: >
+      There is no sha1 checksum defined for file {{ splunk_file }} in
+      vars/main.yml. Set splunk_file_checksum manually or submit a PR to add this
+      version.
+  when:
+    - ansible_version.major >= 2
+    - splunk_verify_checksum|bool
+    - splunk_file_checksum is not defined
+    - splunk_file not in splunk_checksums

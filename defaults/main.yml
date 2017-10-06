@@ -1,0 +1,13 @@
+---
+splunk_file: "splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz"
+splunk_install_dir: /opt/splunk
+splunk_dir: /var/lib/splunk
+# splunk_download_url: 
+# Set this to true to validate splunk tarball checksum against vars/main.yml
+splunk_verify_checksum: false
+# splunk_file_checksum: 
+
+splunk_user: splunk
+splunk_group: "{{ splunk_user }}"
+splunk_cluster: splunk
+
