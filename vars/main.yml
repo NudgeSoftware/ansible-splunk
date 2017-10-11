@@ -1,4 +1,4 @@
 ---
 splunk_checksums:
-  splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz: 64b0b7dded3bf12ed3f4b344d8612070
-  splunk-7.0.0-c8a78efdd40f-linux-2.6-amd64.deb: 31cf875404e2ebf22431eb8c0b030330
+  splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz: md5:64b0b7dded3bf12ed3f4b344d8612070
+  splunk-7.0.0-c8a78efdd40f-linux-2.6-amd64.deb: md5:31cf875404e2ebf22431eb8c0b030330

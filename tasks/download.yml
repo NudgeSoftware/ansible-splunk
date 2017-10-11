@@ -1,0 +1,21 @@
+---
+- name: set splunk checksum
+  set_fact:
+    splunk_checksum: "{{ 'sha1' if splunk_checksums[splunk_version]|length == 40 else 'sha256' }}:{{ splunk_checksums[splunk_version] }}"
+  when:
+    - splunk_verify_checksum|bool
+    - splunk_file_checksum is not defined
+    - splunk_file in splunk_checksums
+
+- name: download splunk
+  get_url:
+    url: "{{ splunk_download_url }}"
+    dest: /usr/local/src/{{ splunk_file }}
+    checksum: "{{ splunk_checksum|default(omit) }}"
+
+- name: extract splunk
+  unarchive:
+    src: /usr/local/src/{{ splunk_file }}
+    dest: /usr/local/src
+    creates: /usr/local/src/{{ splunk_file }}/stuff
+    copy: no

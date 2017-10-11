@@ -1,2 +1,4 @@
 ---
 - include: check_vars.yml
+
+- include: download.yml
