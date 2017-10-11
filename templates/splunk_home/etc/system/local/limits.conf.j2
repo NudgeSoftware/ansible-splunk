@@ -1,0 +1,9 @@
+{% if splunk_limits is defined -%}
+{%   for stanza in splunk_limits.keys() %}
+[{{ stanza }}]
+{%   for key in splunk_limits[stanza].keys() %}
+{{ key }} = {{ splunk_limits[stanza][key] }}
+{%     endfor %}
+
+{%   endfor %}
+{% endif %}

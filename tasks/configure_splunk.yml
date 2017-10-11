@@ -22,30 +22,11 @@
     - web
     - transforms
     - server
+    - limits
+    - authorize
+    - passwords
+#    - inputs
+#    - outputs
+#    - indexes
   notify:
     - restart splunk
-
-# This playbook sets up basic splunk security 
-# - name: copy splunk passwd file
-#   tags:
-#    - install
-#    - security
-#   copy: src=splunk_creds/{{splunk_passwd}} dest={{splunk_home}}/etc owner=splunk group=splunk mode=700
-
-
-# # this file is empty by default remeber to edit it under files{{splunk_home}}/etc/system/local/authorize.conf
-# - name: copy authorize.conf 
-#   tags:
-#    - install
-#    - security
-#   copy: src=opt/splunk/etc/system/local/authorize.conf dest={{splunk_home}}/etc/system/local owner=splunk group=splunk mode=700
-
-
-# # this file is set to splunk authentication by default remeber to edit it under files{{splunk_home}}/etc/system/local/authentication.conf
-# - name: copy authentication.conf
-#   tags:
-#    - install
-#    - security
-#   copy: src=opt/splunk/etc/system/local/authentication.conf dest={{splunk_home}}/etc/system/local owner=splunk group=splunk mode=700
-#   notify:
-#     - restart splunk
