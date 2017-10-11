@@ -1,0 +1,9 @@
+---
+- name: add splunk group
+  group: name={{splunk_group}} state=present
+
+- name: add splunk user
+  user: name={{splunk_user}} comment="Splunk service user" shell=/usr/sbin/nologin groups={{splunk_group}} createhome=no 
+
+- name: make /opt writetable by splunk
+  file: path=/opt mode=777

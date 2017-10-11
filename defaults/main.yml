@@ -1,5 +1,4 @@
 ---
-splunk_file: "splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz"
 splunk_install_dir: /opt/splunk
 splunk_dir: /var/lib/splunk
 # splunk_download_url: 

@@ -1,0 +1,11 @@
+---
+# This playbook setups splunk web service 
+- name: setup web.conf 
+  template: 
+    src: opt/splunk/etc/system/local/web.conf 
+    dest: /opt/splunk/etc/system/local 
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}" 
+    mode: 700 
+  notify:
+    - restart splunk

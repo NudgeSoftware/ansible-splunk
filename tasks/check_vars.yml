@@ -4,7 +4,16 @@
     msg: This role only works on ansible 2.x+
   when:
     - ansible_version.major < 2
-  
+
+- name: check for download
+  fail:
+    msg: splunk_download_url is required
+  when: splunk_download_url is undefined
+
+- name: set local filename
+  set_fact:
+    splunk_file: "{{ splunk_download_url | basename }}"
+
 - name: check for checksum
   fail:
     msg: >

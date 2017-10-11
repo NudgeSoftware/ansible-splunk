@@ -1,4 +1,8 @@
 ---
 - include: check_vars.yml
-
+- include: dependencies.yml
 - include: download.yml
+- include: users.yml
+- include: install.yml
+- include: configure.yml
+- include: security.yml
