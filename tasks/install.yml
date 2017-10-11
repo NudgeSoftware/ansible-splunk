@@ -9,9 +9,8 @@
       src: "{{ splunk_filepath }}"
       dest: /opt/
       copy: no
-      owner: "{{splunk_user}}" 
-      group: "{{splunk_group}}"
-      creates: yes 
+      owner: "{{ splunk_user }}"
+      group: "{{ splunk_group }}" 
   - name: accept license and start splunk
     shell: /opt/splunk/bin/splunk start --accept-license
   - name: enable boot-start
