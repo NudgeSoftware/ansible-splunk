@@ -3,7 +3,7 @@
   stat: path=/opt/splunk
   register: splunk_path
 
-- block
+- block:
   - name: extract splunk
     unarchive:
       src: "{{ splunk_filepath }}"
