@@ -2,7 +2,7 @@
 # This playbook setups splunk web service 
 - name: setup web.conf 
   template: 
-    src: opt/splunk/etc/system/local/web.conf 
+    src: opt/splunk/etc/system/local/web.conf.j2
     dest: /opt/splunk/etc/system/local 
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
