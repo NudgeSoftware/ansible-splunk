@@ -16,6 +16,6 @@
 - name: extract splunk
   unarchive:
     src: /usr/local/src/{{ splunk_file }}
-    dest: "{{ splunk_install_dir }}"
-    creates: "{{ splunk_install_dir }}/bin/splunk"
+    dest: /usr/local/src
+    creates: /usr/local/src/splunk/bin/splunk
     copy: no
