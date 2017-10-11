@@ -1,0 +1,37 @@
+[lmpool:auto_generated_pool_download-trial]
+description = auto_generated_pool_download-trial
+quota = MAX
+slaves = *
+stack_id = download-trial
+
+[lmpool:auto_generated_pool_forwarder]
+description = auto_generated_pool_forwarder
+quota = MAX
+slaves = *
+stack_id = forwarder
+
+[lmpool:auto_generated_pool_free]
+description = auto_generated_pool_free
+quota = MAX
+slaves = *
+stack_id = free
+
+[lmpool:auto_generated_pool_enterprise]
+description = auto_generated_pool_enterprise
+quota = MAX
+slaves = *
+stack_id = enterprise
+
+[license]
+active_group = {{ splunk_server.license|d('Trial') }}
+
+[general]
+{% if splunk_server.serverName is defined -%}
+serverName = {{ splunk_server.serverName }}
+{%- endif %}
+{% if splunk_server.sessionTimeout is defined -%}
+sessionTimeout = {{ splunk_server.sessionTimeout }}
+{%- endif %}
+{% if splunk_server.pass4SymmKey is defined -%}
+pass4SymmKey = {{ splunk_server.pass4SymmKey }}
+{%- endif %}

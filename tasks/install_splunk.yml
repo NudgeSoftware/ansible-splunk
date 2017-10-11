@@ -46,7 +46,7 @@
 
 - name: Set SPLUNK_HOME
   template:
-    src: splunk_home.sh.j2
+    src: etc/profile.d/splunk_home.sh.j2
     dest: /etc/profile.d/splunk_home.sh
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 

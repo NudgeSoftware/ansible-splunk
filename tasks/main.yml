@@ -3,4 +3,3 @@
 - include: setup_host.yml
 - include: install_splunk.yml
 - include: configure_splunk.yml
-- include: security.yml

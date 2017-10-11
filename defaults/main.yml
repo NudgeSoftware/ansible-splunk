@@ -11,8 +11,11 @@ splunk_user: splunk
 splunk_group: "{{ splunk_user }}"
 splunk_cluster: splunk
 
-# web.conf -- see vars for defaults. 
-# see http://docs.splunk.com/Documentation/Splunk/7.0.0/admin/Webconf for what's available
+# web.conf -- vars\main.yml for defaults and for full docs see http://docs.splunk.com/Documentation/Splunk/7.0.0/admin/Webconf
 splunk_web:
   startwebserver: 1
 
+splunk_server:
+  license: Trial
+  sessionTimeout: 1h
+  pass4SymmKey: changeme

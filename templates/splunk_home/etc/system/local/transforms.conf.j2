@@ -1,0 +1,9 @@
+{% if splunk_transforms is defined -%}
+{%   for stanza in splunk_transforms.keys() %}
+[{{ stanza }}]
+{%   for key in splunk_transforms[stanza].keys() %}
+{{ key }} = {{ splunk_transforms[stanza][key] }}
+{%     endfor %}
+
+{%   endfor %}
+{% endif %}
