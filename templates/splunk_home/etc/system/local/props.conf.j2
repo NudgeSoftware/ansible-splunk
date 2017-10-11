@@ -1,0 +1,9 @@
+{% if splunk_props is defined -%}
+{%   for stanza in splunk_props.keys() %}
+[{{ stanza }}]
+{%   for key in splunk_props[stanza].keys() %}
+{{ key }} = {{ splunk_props[stanza][key] }}
+{%     endfor %}
+
+{%   endfor %}
+{% endif %}

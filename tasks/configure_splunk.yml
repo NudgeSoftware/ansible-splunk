@@ -25,8 +25,10 @@
     - limits
     - authorize
     - passwords
-#    - inputs
-#    - outputs
-#    - indexes
+    - inputs
+    - outputs
+    - indexes
+    - props
+    - fields
   notify:
     - restart splunk
