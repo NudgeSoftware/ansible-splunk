@@ -5,6 +5,8 @@ splunk_dir: /var/lib/splunk
 splunk_verify_checksum: false
 # splunk_file_checksum: 
 
+censor_secrets: true
+
 splunk_user: splunk
 splunk_group: "{{ splunk_user }}"
 splunk_cluster: splunk

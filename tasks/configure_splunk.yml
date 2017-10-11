@@ -6,7 +6,7 @@
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
   with_items: "{{ splunk_certs }}"
-  no_log: true
+  no_log: "{{ censor_secrets }}"
   loop_control:
     loop_var: cert
   when: splunk_certs is defined
