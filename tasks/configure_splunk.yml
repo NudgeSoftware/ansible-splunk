@@ -1,0 +1,22 @@
+---
+- name: Write cert files
+  copy: 
+    content: "{{cert.content}}"
+    path: "{{splunk_home}}/{{cert.name}}"
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}" 
+  with_items: "{{ splunk_certs }}"
+  no_log: true
+  loop_control:
+    loop_var: cert
+  when: splunk_certs is defined
+
+- name: setup web.conf 
+  template: 
+    src: etc/system/local/web.conf.j2
+    dest: "{{ splunk_home }}/etc/system/local"
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}" 
+    mode: 700 
+  notify:
+    - restart splunk

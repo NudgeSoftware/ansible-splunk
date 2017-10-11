@@ -1,0 +1,8 @@
+[settings]
+{% if splunk_web is defined -%}
+{%   for key in splunk_web.keys() %}
+{%     if not ((key in splunk_web_defaults) and (splunk_web[key] == splunk_web_defaults[key])) -%}
+{{ key }} = {{ splunk_web[key] }}
+{%-    endif %}
+{%   endfor %}
+{% endif %}

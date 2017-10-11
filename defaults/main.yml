@@ -1,5 +1,4 @@
 ---
-splunk_install_dir: /opt/splunk
 splunk_dir: /var/lib/splunk
 # splunk_download_url: 
 # Set this to true to validate splunk tarball checksum against vars/main.yml
@@ -9,4 +8,9 @@ splunk_verify_checksum: false
 splunk_user: splunk
 splunk_group: "{{ splunk_user }}"
 splunk_cluster: splunk
+
+# web.conf -- see vars for defaults. 
+# see http://docs.splunk.com/Documentation/Splunk/7.0.0/admin/Webconf for what's available
+splunk_web:
+  startwebserver: 1
 

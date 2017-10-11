@@ -1,4 +1,14 @@
 ---
+- name: install EPEL YUM repo
+  yum:
+    name: epel-release
+    state: latest
+
+- name: install selinux 
+  yum:
+    name: libselinux-python
+    state: latest
+
 - name: add splunk group
   group: name={{splunk_group}} state=present
 

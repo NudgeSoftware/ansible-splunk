@@ -1,4 +1,59 @@
 ---
+splunk_home: /opt/splunk
 splunk_checksums:
   splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz: md5:64b0b7dded3bf12ed3f4b344d8612070
   splunk-7.0.0-c8a78efdd40f-linux-2.6-amd64.deb: md5:31cf875404e2ebf22431eb8c0b030330
+
+splunk_web_defaults:
+  startwebserver: 1
+  httpport: 8000
+  mgmtHostPort: 127.0.0.1:8089
+  appServerPorts: 8065
+  splunkdConnectionTimeout: False
+  enableSplunkWebClientNetloc: True
+  enableSplunkWebSSL: False
+  serverCert: $SPLUNK_HOME/etc/auth/splunkweb/cert.pem
+  requireClientCert: False
+  userRegistrationURL: https://www.splunk.com/page/sign_up
+  updateCheckerBaseURL: http://quickdraw.Splunk.com/js/
+  docsCheckerBaseURL: http://quickdraw.splunk.com/help
+  enable_insecure_login: False
+  simple_error_page: False
+  root_endpoint: '/'
+  static_endpoint: /static
+  static_dir: share/splunk/search_mrsparkle/exposed
+  rss_endpoint: /rss
+  embed_footer: "splunk>"
+  tools.staticdir.generate_indexes: 0
+  template_dir: share/splunk/search_mrsparkle/templates
+  module_dir: share/splunk/search_mrsparkle/modules
+  enable_gzip: True
+  use_future_expires: True
+  enable_proxy_write: True
+  js_logger_mode: None
+  js_logger_mode_server_end_point: util/log/js
+  js_logger_mode_server_poll_buffer: 1000
+  js_logger_mode_server_max_buffer: 100
+  ui_inactivity_timeout: 60
+  js_no_cache: False
+  cacheBytesLimit: 4194304 # (i.e. 4 Megabytes)
+  cacheEntriesLimit: 16384
+  staticCompressionLevel: 9
+  enable_autocomplete_login: False
+  verifyCookiesWorkDuringLogin: True
+  pivot_adhoc_acceleration_mode: Elastic
+  jschart_truncation_limit.chrome: 50000
+  jschart_truncation_limit.firefox: 50000
+  jschart_truncation_limit.safari: 50000
+  jschart_truncation_limit.ie11: 50000
+  jschart_series_limit: 100
+  jschart_results_limit: 10000
+  choropleth_shape_limit: 10000
+  dashboard_html_allow_inline_styles: true
+  max_view_cache_size: 300
+  version_label_format: '%s'
+  auto_refresh_views: 0
+  showProductMenu: False
+  productMenuLabel: 'My Splunk'
+  showUserMenuProfile: False.
+  x_frame_options_sameorigin: True

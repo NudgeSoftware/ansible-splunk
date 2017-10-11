@@ -4,42 +4,22 @@
 #   tags:
 #    - install
 #    - security
-#   copy: src=splunk_creds/{{splunk_passwd}} dest=/opt/splunk/etc owner=splunk group=splunk mode=700
+#   copy: src=splunk_creds/{{splunk_passwd}} dest={{splunk_home}}/etc owner=splunk group=splunk mode=700
 
 
-- name: create certs folder
-  file: 
-    path: /opt/splunk/certs 
-    owner: "{{ splunk_user }}"
-    group: "{{ splunk_group }}" 
-    mode: 700 
-    state: directory
-
-# - name: copy ca+server cert for webserver
-#   tags:
-#    - install
-#    - security
-#   copy: src=splunk_creds/{{splunk_ca}} dest=/opt/splunk/certs owner=splunk group=splunk mode=700
-
-# - name: copy server-key.pem for webserver 
-#   tags:
-#    - install
-#    - security
-#   copy: src=splunk_creds/{{splunk_pem}} dest=/opt/splunk/certs owner=splunk group=splunk mode=700
-
-# # this file is empty by default remeber to edit it under files/opt/splunk/etc/system/local/authorize.conf
+# # this file is empty by default remeber to edit it under files{{splunk_home}}/etc/system/local/authorize.conf
 # - name: copy authorize.conf 
 #   tags:
 #    - install
 #    - security
-#   copy: src=opt/splunk/etc/system/local/authorize.conf dest=/opt/splunk/etc/system/local owner=splunk group=splunk mode=700
+#   copy: src=opt/splunk/etc/system/local/authorize.conf dest={{splunk_home}}/etc/system/local owner=splunk group=splunk mode=700
 
 
-# # this file is set to splunk authentication by default remeber to edit it under files/opt/splunk/etc/system/local/authentication.conf
+# # this file is set to splunk authentication by default remeber to edit it under files{{splunk_home}}/etc/system/local/authentication.conf
 # - name: copy authentication.conf
 #   tags:
 #    - install
 #    - security
-#   copy: src=opt/splunk/etc/system/local/authentication.conf dest=/opt/splunk/etc/system/local owner=splunk group=splunk mode=700
+#   copy: src=opt/splunk/etc/system/local/authentication.conf dest={{splunk_home}}/etc/system/local owner=splunk group=splunk mode=700
 #   notify:
 #     - restart splunk

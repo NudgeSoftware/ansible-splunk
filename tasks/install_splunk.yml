@@ -1,0 +1,53 @@
+---
+- name: set splunk checksum
+  set_fact:
+    splunk_checksum: "{{ 'sha1' if splunk_checksums[splunk_version]|length == 40 else 'sha256' }}:{{ splunk_checksums[splunk_version] }}"
+  when:
+    - splunk_verify_checksum|bool
+    - splunk_file_checksum is not defined
+    - splunk_file in splunk_checksums
+
+- name: set local filename
+  set_fact:
+    splunk_filepath: /usr/local/src/{{ splunk_file }}
+
+- name: download splunk
+  get_url:
+    url: "{{ splunk_download_url }}"
+    dest: "{{ splunk_filepath }}"
+    checksum: "{{ splunk_checksum|default(omit) }}"
+    
+- name: checking if splunk is install
+  stat: path={{splunk_home}}
+  register: splunk_path
+
+- block:
+  - name: extract splunk
+    unarchive:
+      src: "{{ splunk_filepath }}"
+      dest: /opt/
+      copy: no
+      owner: "{{ splunk_user }}"
+      group: "{{ splunk_group }}" 
+  - name: accept license and start splunk
+    shell: "{{splunk_home}}/bin/splunk start --accept-license"
+  - name: enable boot-start
+    shell: "{{splunk_home}}/bin/splunk enable boot-start"
+  - name: make /etc/init.d/splunk executable
+    file: 
+      path: /etc/init.d/splunk
+      owner: "{{ splunk_user }}"
+      group: "{{ splunk_group }}" 
+      mode: 755
+  - name: touch ui so it does not ask for the password to be changed
+    shell: touch {{splunk_home}}/etc/.ui_login
+  become: true
+  when: splunk_path.stat.exists == false
+
+- name: Set SPLUNK_HOME
+  template:
+    src: splunk_home.sh.j2
+    dest: /etc/profile.d/splunk_home.sh
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}" 
+    mode: 0644

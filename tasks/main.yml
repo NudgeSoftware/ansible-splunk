@@ -1,8 +1,6 @@
 ---
 - include: check_vars.yml
-- include: dependencies.yml
-- include: download.yml
-- include: users.yml
-- include: install.yml
-- include: configure.yml
+- include: setup_host.yml
+- include: install_splunk.yml
+- include: configure_splunk.yml
 - include: security.yml
