@@ -26,16 +26,12 @@ stack_id = enterprise
 active_group = {{ splunk_server.license|d('Trial') }}
 
 [general]
-# start
-{% if splunk_server.serverName is defined -%}
+{% if splunk_server.serverName is defined %}
 serverName = {{ splunk_server.serverName }}
-{%- endif %}
-# nothing
-{% if splunk_server.sessionTimeout is defined -%}
+{% endif %}
+{% if splunk_server.sessionTimeout is defined %}
 sessionTimeout = {{ splunk_server.sessionTimeout }}
-{%- endif %}
-# more stuff
-{% if splunk_server.pass4SymmKey is defined -%}
+{% endif %}
+{% if splunk_server.pass4SymmKey is defined %}
 pass4SymmKey = {{ splunk_server.pass4SymmKey }}
-{%- endif %}
-# other
+{% endif %}
