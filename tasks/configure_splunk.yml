@@ -17,7 +17,7 @@
     dest: "{{ splunk_home }}/etc/system/local/{{ item }}.conf"
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
-    mode: 700
+    mode: 600
   with_items:
     - web
     - transforms

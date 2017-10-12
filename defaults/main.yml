@@ -1,5 +1,4 @@
 ---
-splunk_dir: /var/lib/splunk
 # splunk_download_url: 
 # Set this to true to validate splunk tarball checksum against vars/main.yml
 splunk_verify_checksum: false
