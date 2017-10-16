@@ -17,7 +17,7 @@
     dest: "{{ splunk_filepath }}"
     checksum: "{{ splunk_checksum|default(omit) }}"
     
-- name: checking if splunk is install
+- name: checking if splunk is installed
   stat: path={{splunk_home}}
   register: splunk_path
 
@@ -41,13 +41,18 @@
       mode: 755
   - name: touch ui so it does not ask for the password to be changed
     shell: touch {{splunk_home}}/etc/.ui_login
+  - name: Set SPLUNK_HOME
+    template:
+      src: etc/profile.d/splunk_home.sh.j2
+      dest: /etc/profile.d/splunk_home.sh
+      owner: "{{ splunk_user }}"
+      group: "{{ splunk_group }}" 
+      mode: 0644
+  - name: restart splunk after initial install
+    service:
+      name: splunk
+      state: restarted
   become: true
   when: splunk_path.stat.exists == false
 
-- name: Set SPLUNK_HOME
-  template:
-    src: etc/profile.d/splunk_home.sh.j2
-    dest: /etc/profile.d/splunk_home.sh
-    owner: "{{ splunk_user }}"
-    group: "{{ splunk_group }}" 
-    mode: 0644
+

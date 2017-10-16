@@ -1,0 +1,28 @@
+---
+- name: set local filename for {{ app.name }}
+  set_fact:
+    app_file: "{{ app.download_url | basename }}"
+  when: app.download_url is defined
+
+- name: set download path for {{ app.name }}
+  set_fact:
+    app_filepath: /usr/local/src/{{ app_file }}
+  when: app.download_url is defined
+
+- name: download app
+  get_url:
+    url: "{{ app.download_url }}"
+    dest: "{{ app_filepath }}"
+    checksum: "{{ app.checksum|default(omit) }}"
+  when: app.download_url is defined
+
+- name: install app {{ app.name }}
+  command: "{{ splunk_home}}/bin/splunk install {{ app_path }} -auth admin:{{splunk_password}}"
+  when: app.download_url is defined
+  notify:
+    - restart splunk
+
+- name: create app {{ app.name }}
+  command: "{{ splunk_home}}/bin/splunk create app {{ app_path }} -auth admin:{{splunk_password}}"
+  ignore_errors: true
+  when: app.download_url is undefined

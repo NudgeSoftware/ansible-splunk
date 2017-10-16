@@ -24,7 +24,6 @@
     - server
     - limits
     - authorize
-    - passwords
     - inputs
     - outputs
     - indexes
@@ -32,3 +31,60 @@
     - fields
   notify:
     - restart splunk
+
+- name: initialize admin passwords for running commands
+  set_fact:
+    splunk_oldpassword: changeme
+    splunk_password: changeme
+
+- name: setup admin passwords for running commands
+  set_fact:
+    splunk_oldpassword: "{{ splunk_users.admin.old_password|'changeme' }}"
+    splunk_password: "{{ splunk_users.admin.password|'changeme' }}"
+  when: admin in splunk_users
+
+- name: update admin password
+  command: "{{ splunk_home}}/bin/splunk edit user admin -password {{ splunk_password }} -auth admin:{{splunk_oldpassword}}" 
+  no_log: "{{ censor_secrets }}"
+  ignore_errors: true
+  when: splunk_password != splunk_oldpassword
+
+- name: create user {{user.0}}
+  command: >
+    {{ splunk_home}}/bin/splunk add user {{user.0}} 
+    -password {{ user.1.password|d('changeme') }} 
+    -role user 
+    -auth admin:{{splunk_password}}
+  ignore_errors: true
+  when: user.0 != 'admin'
+  with_dict: "{{ splunk_users }}"
+  loop_control:
+    loop_var: user
+
+- name: update admin user
+  command: >
+    {{ splunk_home}}/bin/splunk edit user admin
+    {% if splunk_users.admin.tz is defined -%} -tz {{ splunk_users.admin.tz }} {%- endif %}
+    -auth admin:{{splunk_password}}
+  when: admin in splunk_users and (splunk_users.admin.tz is defined)
+
+- name: update user {{user.0}}
+  command: >
+    {{ splunk_home}}/bin/splunk edit user {{user.0}} 
+    {% if user.1.password is defined -%} -password {{ user.1.password }} {%- endif %}
+    {% if user.1.role is defined -%} -role {{ user.1.role }} {%- endif %}
+    {% if user.1.tz is defined -%} -tz {{ user.1.tz }} {%- endif %}
+    -auth admin:{{splunk_password}}
+  when: user.0 != 'admin'
+  with_dict: "{{ splunk_users }}"
+  loop_control:
+    loop_var: user
+
+- name: install app {{app.name}}
+  include: install_splunk_app.yml
+  when: app.download_url is defined
+  become: true
+  with_items: "{{ splunk_apps }}"
+  loop_control:
+    loop_var: app
+

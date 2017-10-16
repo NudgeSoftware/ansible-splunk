@@ -18,3 +18,6 @@ splunk_server:
   license: Trial
   sessionTimeout: 1h
   pass4SymmKey: changeme
+
+# override with app name/download_url/checksum per app to install
+splunk_apps: []
