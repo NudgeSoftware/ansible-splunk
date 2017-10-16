@@ -25,6 +25,6 @@
     - restart splunk
 
 - name: create app {{ app.name }}
-  command: "{{ splunk_home}}/bin/splunk create app {{ app_filepath }} -auth admin:{{splunk_password}}"
+  command: "{{ splunk_home}}/bin/splunk create app -auth admin:{{splunk_password}}"
   ignore_errors: true
   when: app.download_url is undefined
