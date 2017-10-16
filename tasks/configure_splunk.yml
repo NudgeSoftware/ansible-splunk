@@ -49,14 +49,14 @@
   ignore_errors: true
   when: splunk_password != splunk_oldpassword
 
-- name: create user {{user.0}}
+- name: create user {{user.key}}
   command: >
-    {{ splunk_home}}/bin/splunk add user {{user.0}} 
-    -password {{ user.1.password|d('changeme') }} 
+    {{ splunk_home}}/bin/splunk add user {{user.key}} 
+    -password {{ user.value.password|d('changeme') }} 
     -role user 
     -auth admin:{{splunk_password}}
   ignore_errors: true
-  when: user.0 != 'admin'
+  when: user.key != 'admin'
   with_dict: "{{ splunk_users }}"
   loop_control:
     loop_var: user
@@ -68,14 +68,14 @@
     -auth admin:{{splunk_password}}
   when: "'admin' in splunk_users and (splunk_users.admin.tz is defined)"
 
-- name: update user {{user.0}}
+- name: update user {{user.key}}
   command: >
-    {{ splunk_home}}/bin/splunk edit user {{user.0}} 
-    {% if user.1.password is defined -%} -password {{ user.1.password }} {%- endif %}
-    {% if user.1.role is defined -%} -role {{ user.1.role }} {%- endif %}
-    {% if user.1.tz is defined -%} -tz {{ user.1.tz }} {%- endif %}
+    {{ splunk_home}}/bin/splunk edit user {{user.key}} 
+    {% if user.value.password is defined -%} -password {{ user.value.password }} {%- endif %}
+    {% if user.value.role is defined -%} -role {{ user.value.role }} {%- endif %}
+    {% if user.value.tz is defined -%} -tz {{ user.value.tz }} {%- endif %}
     -auth admin:{{splunk_password}}
-  when: user.0 != 'admin'
+  when: user.key != 'admin'
   with_dict: "{{ splunk_users }}"
   loop_control:
     loop_var: user
