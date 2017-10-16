@@ -82,7 +82,6 @@
 
 - name: install app {{app.name}}
   include: install_splunk_app.yml
-  when: app.download_url is defined
   become: true
   with_items: "{{ splunk_apps }}"
   loop_control:
