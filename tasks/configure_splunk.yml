@@ -39,8 +39,8 @@
 
 - name: setup admin passwords for running commands
   set_fact:
-    splunk_oldpassword: "{{ splunk_users.admin.old_password|'changeme' }}"
-    splunk_password: "{{ splunk_users.admin.password|'changeme' }}"
+    splunk_oldpassword: "{{ splunk_users.admin.old_password|d('changeme') }}"
+    splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
   when: "'admin' in splunk_users"
 
 - name: update admin password
