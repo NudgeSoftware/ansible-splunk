@@ -17,8 +17,9 @@
   when: app.download_url is defined
 
 - name: install app {{ app.name }}
-  command: "{{ splunk_home}}/bin/splunk install {{ app_filepath }} -auth admin:{{splunk_password}}"
+  command: "{{ splunk_home}}/bin/splunk install app {{ app_filepath }} -auth admin:{{splunk_password}}"
   when: app.download_url is defined
+  no_log: "{{ censor_secrets }}"
   notify:
     - restart splunk
 
