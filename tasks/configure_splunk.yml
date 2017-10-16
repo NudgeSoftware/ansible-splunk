@@ -41,7 +41,7 @@
   set_fact:
     splunk_oldpassword: "{{ splunk_users.admin.old_password|'changeme' }}"
     splunk_password: "{{ splunk_users.admin.password|'changeme' }}"
-  when: admin in splunk_users
+  when: 'admin' in splunk_users
 
 - name: update admin password
   command: "{{ splunk_home}}/bin/splunk edit user admin -password {{ splunk_password }} -auth admin:{{splunk_oldpassword}}" 
@@ -66,7 +66,7 @@
     {{ splunk_home}}/bin/splunk edit user admin
     {% if splunk_users.admin.tz is defined -%} -tz {{ splunk_users.admin.tz }} {%- endif %}
     -auth admin:{{splunk_password}}
-  when: admin in splunk_users and (splunk_users.admin.tz is defined)
+  when: 'admin' in splunk_users and (splunk_users.admin.tz is defined)
 
 - name: update user {{user.0}}
   command: >
