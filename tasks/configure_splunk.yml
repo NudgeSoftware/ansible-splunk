@@ -30,6 +30,7 @@
     - props
     - fields
     - db_connections
+    - identities
   notify:
     - restart splunk
 

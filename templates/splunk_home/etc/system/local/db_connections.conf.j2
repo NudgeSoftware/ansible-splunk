@@ -1,0 +1,9 @@
+{% if splunk_db_connections is defined -%}
+{%   for stanza in splunk_db_connections.keys() %}
+[{{ stanza }}]
+{%   for key in splunk_db_connections[stanza].keys() %}
+{{ key }} = {{ splunk_db_connections[stanza][key] }}
+{%     endfor %}
+
+{%   endfor %}
+{% endif %}
