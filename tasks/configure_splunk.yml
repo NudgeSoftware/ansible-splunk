@@ -30,5 +30,6 @@
     - indexes
     - props
     - fields
+    - db_connections
   notify:
     - restart splunk
