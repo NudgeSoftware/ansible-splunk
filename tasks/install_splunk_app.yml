@@ -19,12 +19,13 @@
 - name: install app {{ app.name }}
   command: "{{ splunk_home}}/bin/splunk install app {{ app_filepath }} -auth admin:{{splunk_password}}"
   when: app.download_url is defined
-  ignore_errors: true
+  failed_when: false
   no_log: "{{ censor_secrets }}"
   notify:
     - restart splunk
 
 - name: create app {{ app.name }}
   command: "{{ splunk_home}}/bin/splunk create app {{ app.name }} -auth admin:{{splunk_password}}"
-  ignore_errors: true
+  failed_when: false
+  no_log: "{{ censor_secrets }}"
   when: app.download_url is undefined

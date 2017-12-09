@@ -35,3 +35,26 @@ sessionTimeout = {{ splunk_server.sessionTimeout }}
 {% if splunk_server.pass4SymmKey is defined %}
 pass4SymmKey = {{ splunk_server.pass4SymmKey }}
 {% endif %}
+
+[sslConfig]
+{% if splunk_server.useClientSSLCompression is defined %}
+useClientSSLCompression = {{ splunk_server.useClientSSLCompression }}
+{% endif %}
+{% if splunk_server.sslVersions is defined %}
+sslVersions = {{ splunk_server.sslVersions }}
+{% endif %}
+{% if splunk_server.requireClientCert is defined %}
+requireClientCert = {{ splunk_server.requireClientCert }}
+{% endif %}
+{% if splunk_server.serverCert is defined %}
+serverCert = {{ splunk_server.serverCert }}
+{% endif %}
+{% if splunk_server.sslPassword is defined %}
+sslPassword = {{ splunk_server.sslPassword }}
+{% endif %}
+{% if splunk_server.sslRootCAPath is defined %}
+sslRootCAPath = {{ splunk_server.sslRootCAPath }}
+{% endif %}
+{% if splunk_server.sendStrictTransportSecurityHeader is defined %}
+sendStrictTransportSecurityHeader = {{ splunk_server.sendStrictTransportSecurityHeader }}
+{% endif %}

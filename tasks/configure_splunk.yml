@@ -86,7 +86,7 @@
     loop_var: user
 
 - name: install app {{app.name}}
-  include: install_splunk_app.yml
+  include_tasks: install_splunk_app.yml
   become: true
   with_items: "{{ splunk_apps }}"
   loop_control:
