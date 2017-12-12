@@ -43,10 +43,11 @@
   set_fact:
     splunk_oldpassword: "{{ splunk_users.admin.old_password|d('changeme') }}"
     splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
+  no_log: "{{ censor_secrets }}"
   when: "'admin' in splunk_users"
 
 - name: update admin password
-  command: "{{ splunk_home}}/bin/splunk edit user admin -password {{ splunk_password }} -auth admin:{{splunk_oldpassword}}" 
+  command: "{{ splunk_home}}/bin/splunk edit user admin -password '{{ splunk_password }}' -auth admin:'{{splunk_oldpassword}}'" 
   no_log: "{{ censor_secrets }}"
   ignore_errors: true
   when: splunk_password != splunk_oldpassword
@@ -56,7 +57,7 @@
     {{ splunk_home}}/bin/splunk add user {{user.key}} 
     -password {{ user.value.password|d('changeme') }} 
     -role user 
-    -auth admin:{{splunk_password}}
+    -auth admin:'{{splunk_password}}'
   ignore_errors: true
   no_log: "{{ censor_secrets }}"
   when: user.key != 'admin'
@@ -68,7 +69,7 @@
   command: >
     {{ splunk_home}}/bin/splunk edit user admin
     {% if splunk_users.admin.tz is defined -%} -tz {{ splunk_users.admin.tz }} {%- endif %}
-    -auth admin:{{splunk_password}}
+    -auth admin:'{{splunk_password}}'
   no_log: "{{ censor_secrets }}"
   when: "'admin' in splunk_users and (splunk_users.admin.tz is defined)"
 
@@ -78,7 +79,7 @@
     {% if user.value.password is defined -%} -password {{ user.value.password }} {%- endif %}
     {% if user.value.role is defined -%} -role {{ user.value.role }} {%- endif %}
     {% if user.value.tz is defined -%} -tz {{ user.value.tz }} {%- endif %}
-    -auth admin:{{splunk_password}}
+    -auth admin:'{{splunk_password}}'
   no_log: "{{ censor_secrets }}"
   when: user.key != 'admin'
   with_dict: "{{ splunk_users }}"
