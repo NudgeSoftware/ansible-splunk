@@ -46,6 +46,9 @@ sslVersions = {{ splunk_server.sslVersions }}
 {% if splunk_server.requireClientCert is defined %}
 requireClientCert = {{ splunk_server.requireClientCert }}
 {% endif %}
+{% if splunk_server.cipherSuite is defined %}
+cipherSuite = {{ splunk_server.cipherSuite }}
+{% endif %}
 {% if splunk_server.serverCert is defined %}
 serverCert = {{ splunk_server.serverCert }}
 {% endif %}
