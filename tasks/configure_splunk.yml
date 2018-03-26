@@ -52,6 +52,11 @@
   ignore_errors: true
   when: splunk_password != splunk_oldpassword
 
+- name: set license master
+  command: "{{ splunk_home}}/bin/splunk edit licenser-localslave -master_uri '{{ splunk_license_server }}' -auth admin:'{{splunk_password}}'" 
+  no_log: "{{ censor_secrets }}"
+  when: splunk_license_server|d('') != ''
+
 - name: create user {{user.key}}
   command: >
     {{ splunk_home}}/bin/splunk add user {{user.key}} 
