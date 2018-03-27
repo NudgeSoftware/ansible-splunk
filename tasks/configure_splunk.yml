@@ -11,6 +11,16 @@
     loop_var: cert
   when: splunk_certs is defined
 
+- name: setup launch conf
+  template: 
+    src: splunk_home/etc/splunk-launch.conf.j2
+    dest: "{{ splunk_home }}/etc/system/splunk-launch.conf"
+    owner: "{{ splunk_user }}"
+    group: "{{ splunk_group }}" 
+    mode: 600
+  notify:
+    - restart splunk
+
 - name: setup {{ item }}.conf 
   template: 
     src: splunk_home/etc/system/local/{{ item }}.conf.j2
