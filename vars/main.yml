@@ -1,6 +1,7 @@
 ---
 splunk_home: /opt/splunk
 splunk_checksums:
+  splunk-7.2.3-06d57c595b80-Linux-x86_64.tgz: md5:ac6f332dc37845e5d68516233cf8dc8e
   splunk-7.0.0-c8a78efdd40f-Linux-x86_64.tgz: md5:64b0b7dded3bf12ed3f4b344d8612070
   splunk-7.0.0-c8a78efdd40f-linux-2.6-amd64.deb: md5:31cf875404e2ebf22431eb8c0b030330
   splunk-6.5.2-67571ef4b87d-Linux-x86_64.tgz: md5:e7fa467941320c9c36adb98d94333c7e
