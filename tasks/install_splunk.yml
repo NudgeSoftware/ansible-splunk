@@ -28,17 +28,25 @@
       dest: /opt/
       copy: no
       owner: "{{ splunk_user }}"
-      group: "{{ splunk_group }}" 
+      group: "{{ splunk_group }}"
+  - name: Generate user-seed.conf
+    ini_file:
+      owner: "{{ splunk_user }}"
+      group: "{{ splunk_group }}"
+      dest: "{{ splunk_home }}/etc/system/local/user-seed.conf"
+      section: user_info
+      option: "{{ item.opt }}"
+      value: "{{ item.val }}"
+    with_items:
+      - { opt: 'USERNAME', val: 'admin' }
+      - { opt: 'PASSWORD', val: 'changeme' }
+    loop_control:
+      label: "{{ item.opt }}"
+    no_log: "{{ censor_secrets }}"
   - name: accept license and start splunk
-    shell: "{{splunk_home}}/bin/splunk start --accept-license"
+    shell: "{{splunk_home}}/bin/splunk start --accept-license --answer-yes --no-prompt"
   - name: enable boot-start
     shell: "{{splunk_home}}/bin/splunk enable boot-start"
-  - name: make /etc/init.d/splunk executable
-    file: 
-      path: /etc/init.d/splunk
-      owner: "{{ splunk_user }}"
-      group: "{{ splunk_group }}" 
-      mode: 755
   - name: touch ui so it does not ask for the password to be changed
     file: 
       path: "{{splunk_home}}/etc/.ui_login"
@@ -54,7 +62,7 @@
       mode: 0644
   - name: restart splunk after initial install
     service:
-      name: splunk
+      name: Splunkd
       state: restarted
   become: true
   when: splunk_path.stat.exists == false
