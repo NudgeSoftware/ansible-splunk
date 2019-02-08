@@ -1,5 +1,5 @@
 ---
-- include: check_vars.yml
-- include: setup_host.yml
-- include: install_splunk.yml
-- include: configure_splunk.yml
+- import_tasks: check_vars.yml
+- import_tasks: setup_host.yml
+- import_tasks: install_splunk.yml
+- import_tasks: configure_splunk.yml
