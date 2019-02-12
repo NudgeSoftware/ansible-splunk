@@ -43,10 +43,10 @@
     loop_control:
       label: "{{ item.opt }}"
     no_log: "{{ censor_secrets }}"
-  - name: accept license and start splunk
-    shell: "{{splunk_home}}/bin/splunk start --accept-license --answer-yes --no-prompt"
+#  - name: accept license and start splunk
+#    shell: "{{splunk_home}}/bin/splunk start --accept-license --answer-yes --no-prompt"
   - name: enable boot-start
-    shell: "{{splunk_home}}/bin/splunk enable boot-start"
+    shell: "{{splunk_home}}/bin/splunk enable boot-start --accept-license --answer-yes --no-prompt"
   - name: touch ui so it does not ask for the password to be changed
     file: 
       path: "{{splunk_home}}/etc/.ui_login"
