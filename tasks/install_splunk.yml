@@ -40,6 +40,7 @@
     command: "{{ splunk_home}}/bin/splunk hash-passwd '{{ splunk_password }}'" 
     no_log: "{{ censor_secrets }}"
     register: passw_hash
+    when: "'admin' in splunk_users"
 
   - name: Generate user-seed.conf
     ini_file:
@@ -55,6 +56,7 @@
     loop_control:
       label: "{{ item.opt }}"
     no_log: "{{ censor_secrets }}"
+    when: "'admin' in splunk_users"
 
   - name: enable boot-start
     shell: "{{splunk_home}}/bin/splunk enable boot-start --accept-license --answer-yes --no-prompt"
