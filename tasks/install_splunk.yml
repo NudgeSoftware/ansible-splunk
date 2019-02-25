@@ -29,6 +29,18 @@
       copy: no
       owner: "{{ splunk_user }}"
       group: "{{ splunk_group }}"
+
+  - name: setup admin passwords for running commands
+    set_fact:
+      splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
+    no_log: "{{ censor_secrets }}"
+    when: "'admin' in splunk_users"
+
+  - name: hash admin password
+    command: "{{ splunk_home}}/bin/splunk hash-passwd '{{ splunk_password }}'" 
+    no_log: "{{ censor_secrets }}"
+    register: passw_hash
+
   - name: Generate user-seed.conf
     ini_file:
       owner: "{{ splunk_user }}"
@@ -39,12 +51,11 @@
       value: "{{ item.val }}"
     with_items:
       - { opt: 'USERNAME', val: 'admin' }
-      - { opt: 'PASSWORD', val: 'changeme' }
+      - { opt: 'HASH_PASSWORD', val: "{{ passw_hash.stdout }}" }
     loop_control:
       label: "{{ item.opt }}"
     no_log: "{{ censor_secrets }}"
-#  - name: accept license and start splunk
-#    shell: "{{splunk_home}}/bin/splunk start --accept-license --answer-yes --no-prompt"
+
   - name: enable boot-start
     shell: "{{splunk_home}}/bin/splunk enable boot-start --accept-license --answer-yes --no-prompt"
   - name: touch ui so it does not ask for the password to be changed

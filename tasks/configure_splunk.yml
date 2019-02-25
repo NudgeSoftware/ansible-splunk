@@ -44,24 +44,6 @@
   notify:
     - restart splunk
 
-- name: initialize admin passwords for running commands
-  set_fact:
-    splunk_oldpassword: changeme
-    splunk_password: changeme
-
-- name: setup admin passwords for running commands
-  set_fact:
-    splunk_oldpassword: "{{ splunk_users.admin.old_password|d('changeme') }}"
-    splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
-  no_log: "{{ censor_secrets }}"
-  when: "'admin' in splunk_users"
-
-- name: update admin password
-  command: "{{ splunk_home}}/bin/splunk edit user admin -password '{{ splunk_password }}' -auth admin:'{{splunk_oldpassword}}'" 
-  no_log: "{{ censor_secrets }}"
-  ignore_errors: true
-  when: splunk_password != splunk_oldpassword
-
 - name: set license master
   command: "{{ splunk_home}}/bin/splunk edit licenser-localslave -master_uri '{{ splunk_license_server }}' -auth admin:'{{splunk_password}}'" 
   no_log: "{{ censor_secrets }}"
