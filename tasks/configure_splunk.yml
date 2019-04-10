@@ -21,6 +21,12 @@
   notify:
     - restart splunk
 
+- name: setup admin passwords for running commands
+  set_fact:
+    splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
+  no_log: "{{ censor_secrets }}"
+  when: "'admin' in splunk_users"
+
 - name: setup {{ item }}.conf 
   template: 
     src: splunk_home/etc/system/local/{{ item }}.conf.j2
@@ -67,7 +73,7 @@
     {{ splunk_home}}/bin/splunk edit user admin
     {% if splunk_users.admin.tz is defined -%} -tz {{ splunk_users.admin.tz }} {%- endif %}
     -auth admin:'{{splunk_password}}'
-  no_log: "{{ censor_secrets }}"
+  #no_log: "{{ censor_secrets }}"
   when: "'admin' in splunk_users and (splunk_users.admin.tz is defined)"
 
 - name: update user {{user.key}}
