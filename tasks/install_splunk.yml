@@ -52,7 +52,7 @@
       value: "{{ item.val }}"
     with_items:
       - { opt: 'USERNAME', val: 'admin' }
-      - { opt: 'HASH_PASSWORD', val: "{{ passw_hash.stdout }}" }
+      - { opt: 'HASHED_PASSWORD', val: "{{ passw_hash.stdout }}" }
     loop_control:
       label: "{{ item.opt }}"
     no_log: "{{ censor_secrets }}"
