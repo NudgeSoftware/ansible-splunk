@@ -21,6 +21,12 @@
   stat: path={{splunk_home}}
   register: splunk_path
 
+- name: setup admin passwords for running commands
+  set_fact:
+    splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
+  no_log: "{{ censor_secrets }}"
+  when: "'admin' in splunk_users"
+
 - block:
   - name: extract splunk
     unarchive:
@@ -29,12 +35,6 @@
       copy: no
       owner: "{{ splunk_user }}"
       group: "{{ splunk_group }}"
-
-  - name: setup admin passwords for running commands
-    set_fact:
-      splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
-    no_log: "{{ censor_secrets }}"
-    when: "'admin' in splunk_users"
 
   - name: hash admin password
     command: "{{ splunk_home}}/bin/splunk hash-passwd '{{ splunk_password }}'" 
@@ -50,9 +50,9 @@
       section: user_info
       option: "{{ item.opt }}"
       value: "{{ item.val }}"
-    with_items:
+    loop:
       - { opt: 'USERNAME', val: 'admin' }
-      - { opt: 'HASH_PASSWORD', val: "{{ passw_hash.stdout }}" }
+      - { opt: 'HASHED_PASSWORD', val: "{{ passw_hash.stdout }}" }
     loop_control:
       label: "{{ item.opt }}"
     no_log: "{{ censor_secrets }}"

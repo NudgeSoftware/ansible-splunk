@@ -5,7 +5,7 @@
     dest: "{{splunk_home}}/{{cert.name}}"
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
-  with_items: "{{ splunk_certs }}"
+  loop: "{{ splunk_certs }}"
   no_log: "{{ censor_secrets }}"
   loop_control:
     loop_var: cert
@@ -28,7 +28,7 @@
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
     mode: 600
-  with_items:
+  loop:
     - web
     - transforms
     - server
@@ -58,7 +58,7 @@
   ignore_errors: true
   no_log: "{{ censor_secrets }}"
   when: user.key != 'admin'
-  with_dict: "{{ splunk_users }}"
+  loop: "{{ splunk_users|dict2items }}"
   loop_control:
     loop_var: user
 
@@ -79,14 +79,14 @@
     -auth admin:'{{splunk_password}}'
   no_log: "{{ censor_secrets }}"
   when: user.key != 'admin'
-  with_dict: "{{ splunk_users }}"
+  loop: "{{ splunk_users|dict2items }}"
   loop_control:
     loop_var: user
 
 - name: install app {{app.name}}
   include_tasks: install_splunk_app.yml
   become: true
-  with_items: "{{ splunk_apps }}"
+  loop: "{{ splunk_apps }}"
   loop_control:
     loop_var: app
 
