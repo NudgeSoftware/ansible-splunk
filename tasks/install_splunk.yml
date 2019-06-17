@@ -24,7 +24,7 @@
 - name: setup admin passwords for running commands
   set_fact:
     splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   when: "'admin' in splunk_users"
 
 - block:
@@ -38,7 +38,7 @@
 
   - name: hash admin password
     command: "{{ splunk_home}}/bin/splunk hash-passwd '{{ splunk_password }}'" 
-    no_log: "{{ censor_secrets }}"
+    no_log: "{{ censor_secrets|d(true) }}"
     register: passw_hash
     when: "'admin' in splunk_users"
 
@@ -55,7 +55,7 @@
       - { opt: 'HASHED_PASSWORD', val: "{{ passw_hash.stdout }}" }
     loop_control:
       label: "{{ item.opt }}"
-    no_log: "{{ censor_secrets }}"
+    no_log: "{{ censor_secrets|d(true) }}"
     when: "'admin' in splunk_users"
 
   - name: enable boot-start

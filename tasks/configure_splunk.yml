@@ -6,7 +6,7 @@
     owner: "{{ splunk_user }}"
     group: "{{ splunk_group }}" 
   loop: "{{ splunk_certs }}"
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   loop_control:
     loop_var: cert
   when: splunk_certs is defined
@@ -24,7 +24,7 @@
 - name: setup admin passwords for running commands
   set_fact:
     splunk_password: "{{ splunk_users.admin.password|d('changeme') }}"
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   when: "'admin' in splunk_users"
 
 - name: setup {{ item }}.conf 
@@ -52,7 +52,7 @@
 
 - name: set license master
   command: "{{ splunk_home}}/bin/splunk edit licenser-localslave -master_uri '{{ splunk_license_server }}' -auth admin:'{{splunk_password}}'" 
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   when: splunk_license_server|d('') != ''
 
 - name: create user {{user.key}}
@@ -62,7 +62,7 @@
     -role user 
     -auth admin:'{{splunk_password}}'
   ignore_errors: true
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   when: user.key != 'admin'
   loop: "{{ splunk_users|dict2items }}"
   loop_control:
@@ -73,7 +73,7 @@
     {{ splunk_home}}/bin/splunk edit user admin
     {% if splunk_users.admin.tz is defined -%} -tz {{ splunk_users.admin.tz }} {%- endif %}
     -auth admin:'{{splunk_password}}'
-  #no_log: "{{ censor_secrets }}"
+  #no_log: "{{ censor_secrets|d(true) }}"
   when: "'admin' in splunk_users and (splunk_users.admin.tz is defined)"
 
 - name: update user {{user.key}}
@@ -83,7 +83,7 @@
     {% if user.value.role is defined -%} -role {{ user.value.role }} {%- endif %}
     {% if user.value.tz is defined -%} -tz {{ user.value.tz }} {%- endif %}
     -auth admin:'{{splunk_password}}'
-  no_log: "{{ censor_secrets }}"
+  no_log: "{{ censor_secrets|d(true) }}"
   when: user.key != 'admin'
   loop: "{{ splunk_users|dict2items }}"
   loop_control:
